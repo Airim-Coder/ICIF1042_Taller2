@@ -43,7 +43,7 @@ por género de película.
 9. Guardar los resultados generados en un archivo Excel.
 
 # Rubrica
-- Generación correcta de los archivos CSV con datos aleatorios (15 puntos)
+1. Generación correcta de los archivos CSV con datos aleatorios (15 puntos)
 - Creación de los dos archivos CSV requeridos (5 puntos)
 - Inclusión de las columnas especificadas en cada archivo (5 puntos)
 - Generación de datos aleatorios utilizando funciones de probabilidad (5 puntos)
