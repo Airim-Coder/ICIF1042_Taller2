@@ -1,0 +1,51 @@
+ID_Cliente,Nombre,Edad,Genero,Ubicacion
+1,['Mrs. Jennifer Hill DVM'],[39],Femenino,Oeste
+2,['Alexandra Mills'],[47],Femenino,Norte
+3,['Amanda Johnston'],[31],Femenino,Sur
+4,['Kristy Johnson MD'],[50],Masculino,Este
+5,['Mrs. Jessica Berg'],[19],Femenino,Norte
+6,['Teresa Perry'],NULL,Masculino,Oeste
+7,['Joel Gonzalez'],[77],Femenino,Sur
+8,['Lisa Anderson'],[38],Femenino,Este
+9,['Alexis Preston'],[67],Masculino,Norte
+10,['Ronald Costa'],[43],Masculino,Sur
+11,NULL,[18],Femenino,Norte
+12,['Mrs. Jessica Berg'],[77],Femenino,Este
+13,['Terry Wolf'],[65],Masculino,Este
+14,NULL,[32],Femenino,Oeste
+15,NULL,[60],Femenino,Sur
+16,NULL,NULL,Femenino,Este
+17,['Dawn Wolfe'],[37],Masculino,Este
+18,NULL,[69],Femenino,Sur
+19,['Lisa Anderson'],[53],Femenino,Este
+20,['Kim Hodges'],[63],Masculino,Sur
+21,['Sherry Harding'],[78],Femenino,Este
+22,['Guy Riley'],[57],Masculino,Sur
+23,['Morgan Brady'],[58],Masculino,Este
+24,['Paul Hawkins'],[32],Femenino,Sur
+25,['Gregory Huynh'],[55],Femenino,Sur
+26,['Alexandra Mills'],[30],Masculino,Norte
+27,['Justin Sellers'],[77],Femenino,Sur
+28,['Kaitlyn Colon'],[62],Femenino,Oeste
+29,['Guy Riley'],[62],Femenino,Sur
+30,['Paul Hawkins'],[39],Masculino,Sur
+31,['Susan Reeves'],[49],Femenino,Oeste
+32,['Russell Ortiz'],[70],Masculino,Sur
+33,['Jennifer Simon'],[41],Masculino,Este
+34,['Daniel Wolfe'],[42],Masculino,Este
+35,['Joel Gonzalez'],[35],Masculino,Oeste
+36,['Mrs. Jessica Berg'],[34],Femenino,Sur
+37,['Leslie Campos'],[46],Masculino,Oeste
+38,['Monique Davis'],[46],Femenino,Norte
+39,['George Jordan'],[43],Masculino,Este
+40,NULL,[39],Masculino,Este
+41,['Mrs. Jennifer Hill DVM'],[59],Masculino,Sur
+42,['Jordan Nguyen'],[36],Femenino,Oeste
+43,['Daniel Wolfe'],[41],Masculino,Oeste
+44,['George Jordan'],[33],Masculino,Norte
+45,['Guy Riley'],[60],Masculino,Sur
+46,['Leah Wolfe'],[24],Femenino,Norte
+47,['Christopher Nguyen'],[23],Masculino,Norte
+48,['Michelle Barnes'],[46],Femenino,Oeste
+49,['Anthony Mitchell'],[37],Masculino,Sur
+50,['Jennifer Simon'],[64],Femenino,Sur
