@@ -1,0 +1,51 @@
+ID_Cliente,Nombre,Edad,Genero,Ubicacion
+1,['Tina Glover'],[68],Femenino,Oeste
+2,['Tina Glover'],[68],Masculino,Sur
+3,['Luke Carter'],[70],Masculino,Oeste
+4,NULL,NULL,Masculino,Sur
+5,['Brendan Strong PhD'],[53],Otro,Sur
+6,['Lisa Graham'],[44],Femenino,Sur
+7,['Felicia Roberts'],[67],Masculino,Este
+8,['Karen Johnston'],NULL,Masculino,Este
+9,['Destiny Mcdonald'],[29],Otro,Norte
+10,['Kim Scott'],[46],Otro,Norte
+11,['Nancy Johnson'],[28],Femenino,Este
+12,['Jennifer Garcia'],[76],Femenino,Oeste
+13,['Jennifer Meyers'],[49],Otro,Este
+14,['Felicia Roberts'],[59],Masculino,Este
+15,['Gregory Stevens'],[71],Femenino,Sur
+16,['Nancy Johnson'],[77],Femenino,Este
+17,['Luke Carter'],[18],Masculino,Sur
+18,['Dana Pham'],[29],Masculino,Sur
+19,['Barbara Cooper'],[77],Masculino,Este
+20,['Heather Pace'],[53],Otro,Este
+21,['Tony Caldwell'],[74],Masculino,Este
+22,['Warren Jackson'],[70],Masculino,Oeste
+23,['Molly Yang'],[20],Femenino,Sur
+24,['Kevin Haynes'],[31],Masculino,Sur
+25,['Brendan Strong PhD'],NULL,Masculino,Oeste
+26,['Gary Schmidt'],[53],Otro,Norte
+27,['Susan Harrell'],[61],Femenino,Este
+28,['Jasmine Cook'],[49],Otro,Oeste
+29,['Jennifer Meyers'],[57],Femenino,Oeste
+30,['Melissa Graves'],[45],Masculino,Sur
+31,['Nancy Johnson'],[77],Masculino,Norte
+32,['David Reese'],[67],Masculino,Este
+33,['Destiny Mcdonald'],[29],Otro,Norte
+34,['Brendan Strong PhD'],[27],Masculino,Norte
+35,['Chad Sanchez'],[72],Otro,Norte
+36,['Brittany Stanley'],[70],Femenino,Este
+37,['Christine Brewer'],[21],Femenino,Este
+38,['Dwayne Flynn'],[66],Otro,Oeste
+39,['Nancy Johnson'],[41],Femenino,Este
+40,['Carrie Foster'],[77],Femenino,Sur
+41,['Molly Yang'],[27],Masculino,Oeste
+42,['Destiny Mcdonald'],[38],Otro,Norte
+43,['Susan Mack'],[20],Femenino,Sur
+44,['Karen Johnston'],[68],Otro,Sur
+45,['Kim Scott'],[31],Otro,Sur
+46,['Lori Roy'],[61],Otro,Norte
+47,['Margaret Bryan'],[49],Masculino,Oeste
+48,NULL,[22],Femenino,Oeste
+49,['Dana Pham'],[59],Femenino,Oeste
+50,['Susan Mack'],[38],Femenino,Oeste

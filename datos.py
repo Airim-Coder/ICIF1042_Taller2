@@ -37,40 +37,35 @@ def Simulador_Ventas():
 
 def DataGen_Clientes(num_clientes):
     try:
-        nombres = NameListGen(num_clientes)
+        nombres = _nameListGen(num_clientes)
         edad = range(18,80) #Generacion de Edad entre los 18 y 80 años
         genero = ['Femenino','Masculino','Otro']
         ubicacion = ['Norte','Sur','Este','Oeste']
-        clientes = pd.DataFrame({
+        df_clientes = pd.DataFrame({
             "ID_Cliente": np.arange(1, num_clientes +1),
             "Nombre": [random.choices(nombres) if random.random() > 0.05 else "NULL" for i in range(num_clientes)],
             "Edad": [random.choices(edad) if random.random() > 0.05 else "NULL" for i in range(num_clientes)],
             "Genero": [random.choice(genero) for i in range(num_clientes)],
             "Ubicacion": [random.choice(ubicacion)for i in range(num_clientes)]
         })
-        print(clientes)
+        return df_clientes
     except:
         raise Exception("Ha surgido un error en la generacion de clientes")
 
 def DataGen_Ventas(num_ventas, clientes):
     #region Generacion de datos de ventas
-    categoria_aleatoria = list(ProductList().keys())#Seleccionar una categoría aleatoria
-    productos_categoria = ProductList()[categoria_aleatoria]["Productos"]#Obtener la lista de productos de la categoría aleatoria
-    producto_aleatorio = list(productos_categoria.keys())#Seleccionar un producto aleatorio de la categoría
-    precio_producto = productos_categoria[producto_aleatorio]["Precio"]#Obtener el precio del producto aleatorio
+    categorias_productos = _productList()
     lista_clientes = list(clientes['ID_Cliente'])
     #endregion
     try:
-         ventas = pd.DataFrame({
-             "ID_Venta": np.arange(1, num_ventas +1),
-             "ID_Cliente": [random.choice(lista_clientes) for i in range(num_ventas)],
-             "Categoría": [random.choice(categoria_aleatoria) for i in range(num_ventas)],
-             "Producto": [random.choice(producto_aleatorio) if random.random() > 0.1 else "NULL" for i in range(num_ventas)],
-             "Precio": [precio_producto for i in range(num_ventas)],
-             "Cantidad": [np.random.randint(1, 5, size=num_ventas)]
-         })
-         print(ventas)
-         return ventas
+        df_ventas= pd.DataFrame(columns=["ID_Venta","ID_Cliente","Categoría", "Producto", "Precio", "Cantidad"])
+        for _ in range(num_ventas):
+            venta = _saleGen(categorias_productos)
+            df_ventas['ID_Venta'] = range(1, len(df_ventas) + 1)
+            df_ventas['ID_Cliente'] = df_ventas.apply(lambda row: random.choice(lista_clientes), axis=1)
+            df_ventas = df_ventas._append(venta, ignore_index=True)
+        print(df_ventas)
+        return df_ventas
     except:
         raise Exception("Ha surgido un error en la generacion de ventas")
 
@@ -84,17 +79,18 @@ def FileWrite(nombre,datos): #Escribe los datos en un archivo CSV
         datos.to_csv(nombre, index=False)
         print("Archivo CSV generado con exito")
     except:
-        print("Ha surgido un error escribiendo el archivo")
+        raise("Ha surgido un error escribiendo el archivo")
 
 #region INTERNAL
-def NameListGen(clientes):
+def _nameListGen(clientes):
     fake = Faker()
     nombres_comunes=[]
     for i in range(clientes):
         name = fake.name()
         nombres_comunes.append(name)
     return nombres_comunes
-def ProductList():
+
+def _productList():
     categorias_productos = {
             "Hogar": {
             "Productos": {"Refrigerador":{"Precio": 199990},"Estufa Electrica":{"Precio": 129990}, "Lavadora":{"Precio": 164990}, "Horno Electrico":{"Precio": 189990}, "Lámpara":{"Precio": 4990}}},
@@ -104,6 +100,20 @@ def ProductList():
           }
         }
     return categorias_productos
+def _saleGen(categorias_productos):
+    categoria = random.choice(list(categorias_productos.keys()))
+    productos = list(categorias_productos[categoria]["Productos"].keys())
+    precios_sin_cat= [1000,1300,1500,1990, 2990,3990,4990]
+    if random.random() < 0.1:
+        producto = 'NULL'
+        precio = random.choice(precios_sin_cat)
+    else:
+        producto = random.choice(productos)
+        precio = categorias_productos[categoria]["Productos"][producto]["Precio"]
+        
+    cantidad = random.randint(1, 5)
+
+    return {"Categoría": categoria, "Producto": producto, "Precio": precio, "Cantidad": cantidad}
 #endregion
 
 def main(): #Solo para depuracion
