@@ -33,7 +33,7 @@ Realizar una limpieza de datos inicial en ambos DataFrames, manejando los valore
 6. Generar una tabla que muestre la cantidad de películas por género y año de lanzamiento
 utilizando las funciones de agregación de Pandas.
 
-- Identificar las 10 películas con el rating promedio más alto y las 10 películas con el
+7. Identificar las 10 películas con el rating promedio más alto y las 10 películas con el
 rating promedio más bajo utilizando indexación fancy y slicing en el DataFrame
 cruzado.
 
