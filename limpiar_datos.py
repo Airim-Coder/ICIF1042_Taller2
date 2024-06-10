@@ -17,6 +17,8 @@ def Limpiar_Datos():
     print(df_ventas)
     print(df_clientes)
     
+    Analisis_NaN(df_ventas, 'ventas')
+    Analisis_NaN(df_clientes, 'clientes')
 
 def LeerArchivo(archivo):  #funcion para leer el archivo csv
     try:
@@ -25,13 +27,32 @@ def LeerArchivo(archivo):  #funcion para leer el archivo csv
     except FileNotFoundError: #control de error si el archivo no existe
         raise(f"Error: Archivo '{archivo}' no encontrado.")
 
-def Limpiar_Ventas(ventas): ##pruebas
-    #Manejo de valores nulos
-    ventas.dropna(inplace=True) #eliminar filas con valores nulos
-    #Conversion de tipos de datos
-    ventas['Fecha'] = pd.to_datetime(ventas['Fecha']) #convertir columna Fecha a
-    ventas['Valor'] = pd.to_numeric(ventas['Valor'], errors='coerce') #
-    return ventas
+def Analisis_NaN(data, nombre):
+    #Análisis de valores nulos
+    print(f"Análisis de valores nulos en {nombre}:")
+    porcentaje_NaN = data.isna().sum() / len(data) * 100
+    print(porcentaje_NaN)
+    
+    #Análisis de patrones de falta
+    data.isna().sum(axis=0)
+    
+    #Eliminación de filas con alto porcentaje de NaN
+    data.dropna(thresh=0.5, inplace=True)
+    
+    #Imputación de valores faltantes con la media
+    if nombre.lower == 'ventas':
+        data["Producto"].fillna(data["Producto"].mean(), inplace=True)
+        data["Producto"].hist() #Distribución despues de la imputacion
+    elif nombre.lower == 'clientes':
+        data["Nombre"].fillna(data["Nombre"].mean(), inplace=True)
+        data["Edad"].fillna(data["Edad"].mean(), inplace=True)
+        #Distribución despues de la imputacion
+        data["Nombre"].hist()
+        data["Edad"].hist()
+
+    #Guardado del df limpio
+    cleaner_df = data
+    return cleaner_df
 
 def main(): #Solo para depuracion
     Limpiar_Datos()
