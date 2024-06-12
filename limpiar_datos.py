@@ -30,6 +30,7 @@ def LeerArchivo(archivo):  #funcion para leer el archivo csv
 def Analisis_NaN(data, nombre):
     #Análisis de valores nulos
     print(f"Análisis de valores nulos en {nombre}:")
+    print(data.info())
     porcentaje_NaN = data.isna().sum() / len(data) * 100
     print(porcentaje_NaN)
     
@@ -40,11 +41,11 @@ def Analisis_NaN(data, nombre):
     data.dropna(thresh=0.5, inplace=True)
     
     #Imputación de valores faltantes con la media
-    if nombre.lower == 'ventas':
-        data["Producto"].fillna(data["Producto"].mean(), inplace=True)
+    if nombre == 'ventas':
+        #data["Producto"].fillna(data["Producto"].mean(), inplace=True)
         data["Producto"].hist() #Distribución despues de la imputacion
     elif nombre.lower == 'clientes':
-        data["Nombre"].fillna(data["Nombre"].mean(), inplace=True)
+        #data["Nombre"].fillna(data["Nombre"].mean(), inplace=True)
         data["Edad"].fillna(data["Edad"].mean(), inplace=True)
         #Distribución despues de la imputacion
         data["Nombre"].hist()
