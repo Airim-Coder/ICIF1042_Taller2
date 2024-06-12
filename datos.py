@@ -9,45 +9,26 @@ Contenido:
     - La columna "Producto" puede contener hasta un 10% de valores nulos. 
     - En el archivo "clientes.csv", las columnas "Nombre" y "Edad" pueden contener hasta un 5% de valores nulos cada una.
 '''
-from faker import Faker
+#from faker import Faker
 import pandas as pd
 import numpy as np
 import os, random
 
-def Simulador_Ventas():
-    print("SIMULADOR DE VENTAS")
-    num_clientes = int(input("Para comenzar, Cuántos Clientes desea?\nConsidere a lo menos 50: ")) # Numero de clientes
-    num_ventas = int(input("Cuántas ventas desea evaluar?\nConsidere a lo menos 100: "))
-    
-    while(True):  #mientras las filas sean menor a 50
-        if num_clientes < 50 :
-            print("Para que el analisis sea mas eficiente considere a lo menos 50 clientes")
-            num_clientes = int(input("Cuántos clientes desea?:")) #volver a ingresar numero de filas
-        else:
-            clientes = DataGen_Clientes(num_clientes)
-            FileWrite('clientes.csv', clientes)
+def Simulador_Ventas(num_ventas,num_clientes):
+    clientes = DataGen_Clientes(num_clientes)
+    FileWrite('clientes.csv', clientes)
                  
-            if num_ventas < 100 :
-                print("Para que el analisis sea mas eficiente considere a lo menos 100 ventas")
-                num_ventas = int(input("Cuántos ventas desea evaluar?:")) #volver a ingresar numero de filas
-            else:
-                ventas = DataGen_Ventas(num_ventas, clientes)
-                FileWrite('ventas.csv',ventas)
-                break
+    ventas = DataGen_Ventas(num_ventas, clientes)
+    FileWrite('ventas.csv',ventas)
 
 def DataGen_Clientes(num_clientes):
     try:
-        nombres = _nameListGen(num_clientes)
-        edad = range(18,80) #Generacion de Edad entre los 18 y 80 años
-        genero = ['Femenino','Masculino','Otro']
-        ubicacion = ['Norte','Sur','Este','Oeste']
-        df_clientes = pd.DataFrame({
-            "ID_Cliente": np.arange(1, num_clientes +1),
-            "Nombre": [random.choices(nombres) if random.random() > 0.05 else "NULL" for i in range(num_clientes)],
-            "Edad": [random.choices(edad) if random.random() > 0.05 else "NULL" for i in range(num_clientes)],
-            "Genero": [random.choice(genero) for i in range(num_clientes)],
-            "Ubicacion": [random.choice(ubicacion)for i in range(num_clientes)]
-        })
+        df_clientes = pd.DataFrame(columns=['ID_Cliente','Nombre','Edad','Genero','Ubicacion'])
+        clientes_genero = _clientListGen()
+        for _ in range(num_clientes):
+            nombres = _clientGen(clientes_genero)#_nameListGen(num_clientes)
+            df_clientes['ID_Cliente']= range(1, len(df_clientes) + 1)
+            df_clientes = df_clientes._append(nombres, ignore_index=True)
         return df_clientes
     except:
         raise Exception("Ha surgido un error en la generacion de clientes")
@@ -64,7 +45,6 @@ def DataGen_Ventas(num_ventas, clientes):
             df_ventas['ID_Venta'] = range(1, len(df_ventas) + 1)
             df_ventas['ID_Cliente'] = df_ventas.apply(lambda row: random.choice(lista_clientes), axis=1)
             df_ventas = df_ventas._append(venta, ignore_index=True)
-        print(df_ventas)
         return df_ventas
     except:
         raise Exception("Ha surgido un error en la generacion de ventas")
@@ -82,13 +62,48 @@ def FileWrite(nombre,datos): #Escribe los datos en un archivo CSV
         raise("Ha surgido un error escribiendo el archivo")
 
 #region INTERNAL
-def _nameListGen(clientes):
+def _clientListGen():
+    clientes_genero = {
+        "Mitchell Robertson": {'Genero': 'Masculino'},
+        "Lily Tran": {"Genero": "Femenino"},
+        "Ethan Patel": {"Genero": "Masculino"},
+        "Ava Lee": {"Genero": "Femenino"},
+        "Jesus Floyd":{"Genero": "Masculino"},
+        "Olivia Brown": {"Genero": "Femenino"},
+        "Noah White": {"Genero": "Masculino"},
+        "Evelyn Hall": {"Genero": "Femenino"},
+        "Liam Martin": {"Genero": "Masculino"},
+        "Sophia Davis": {"Genero": "Femenino"},
+        "Daniel Lambert":{"Genero": "Masculino"},
+        "Maria Scott":{"Genero": "Femenino"},
+        }
+    return clientes_genero
+
+def _clientGen(clientes_genero):
+    nombre = random.choice(list(clientes_genero.keys()))
+    genero_sin_asig = ["Femenino","Masculino","Otro"]
+    if random.random() < 0.05:
+        nombre = None
+        genero = random.choice(genero_sin_asig)
+    else:
+        nombre = random.choice(nombre)
+        genero = list(clientes_genero[nombre]["Genero"])
+    
+    if random.random() < 0.05:
+       edad = None 
+    else:
+        edad = random.randint(18, 65)
+    ubicacion = random.choice(["Norte","Sur","Este","Oeste"])
+    
+    return {"Nombre":nombre, "Genero": genero, 'Edad': edad, 'Ubicacion': ubicacion}
+
+'''def _nameListGen(clientes): #Uso de lib Faker
     fake = Faker()
     nombres_comunes=[]
     for i in range(clientes):
         name = fake.name()
         nombres_comunes.append(name)
-    return nombres_comunes
+    return nombres_comunes'''
 
 def _productList():
     categorias_productos = {
@@ -105,7 +120,7 @@ def _saleGen(categorias_productos):
     productos = list(categorias_productos[categoria]["Productos"].keys())
     precios_sin_cat= [1000,1300,1500,1990, 2990,3990,4990]
     if random.random() < 0.1:
-        producto = 'NULL'
+        producto = None
         precio = random.choice(precios_sin_cat)
     else:
         producto = random.choice(productos)
@@ -113,11 +128,11 @@ def _saleGen(categorias_productos):
         
     cantidad = random.randint(1, 5)
 
-    return {"Categoría": categoria, "Producto": producto, "Precio": precio, "Cantidad": cantidad}
+    return {"Categoria": categoria, "Producto": producto, "Precio": precio, "Cantidad": cantidad}
 #endregion
 
 def main(): #Solo para depuracion
-    Simulador_Ventas()
+    Simulador_Ventas(10,5)
 
 if __name__ == "__main__":
     main()
