@@ -7,16 +7,14 @@ Contenido:
 3. Generar una tabla que muestre la cantidad de ventas por Categoria y Precio utilizando las funciones de agregación de Pandas.
 4. Identificar los 10 Productos con mayor venta y los 10 productos con promedio más bajo utilizando indexación fancy y slicing en el DataFrame cruzado.
 '''
-import datos
 
 def Modelado():
     #cruce de df
-    Ventas_Clientes = datos.df_ventas.merge(datos.df_clientes, on="ID_Clientes")
-    rating_promedio = Ventas_Clientes.groupby("producto")["Precio"].size().to_frame(name="cantidad").reset_index()
+    ventas_promedio = Ventas_Clientes.groupby("producto")["Precio"].size().to_frame(name="cantidad").reset_index()
     
     print()
 
 def Merge_data(ventas,clientes):
     merged_df = ventas.merge(clientes, on='ID_Cliente')
-    average_sales_per_category = merged_df.groupby('Categoría')['sales'].mean()
+    Ventas_media = merged_df.groupby('Producto')['Precio'].size().to_frame(name="Cantidad").reset_index()
 
