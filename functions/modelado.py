@@ -9,15 +9,14 @@ Contenido:
 '''
 import datos
 
-def Estadistico_Ventas():
+def Modelado():
     #cruce de df
     Ventas_Clientes = datos.df_ventas.merge(datos.df_clientes, on="ID_Clientes")
     rating_promedio = Ventas_Clientes.groupby("producto")["Precio"].size().to_frame(name="cantidad").reset_index()
     
     print()
 
-def main(): #Solo para depuracion
-    Estadistico_Ventas()
+def Merge_data(ventas,clientes):
+    merged_df = ventas.merge(clientes, on='ID_Cliente')
+    average_sales_per_category = merged_df.groupby('Categoría')['sales'].mean()
 
-if __name__ == "__main__":
-    main()
