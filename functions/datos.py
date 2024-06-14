@@ -21,19 +21,20 @@ def Simulador_Ventas(num_ventas,num_clientes):
     ventas = DataGen_Ventas(num_ventas, clientes)
     FileWrite('ventas.csv',ventas)
 
-def DataGen_Clientes(num_clientes):
+def DataGen_Clientes(num_clientes): #Genera clientes aleatorios segun los parametros ingresados
     try:
         df_clientes = pd.DataFrame(columns=['ID_Cliente','Nombre','Edad','Genero','Ubicacion'])
         clientes_genero = _clientListGen()
         for _ in range(num_clientes):
             nombres = _clientGen(clientes_genero)#_nameListGen(num_clientes)
-            df_clientes['ID_Cliente']= range(1, len(df_clientes) + 1)
             df_clientes = df_clientes._append(nombres, ignore_index=True)
+            
+        df_clientes['ID_Cliente']= np.arange(1, len(df_clientes)+1)
         return df_clientes
     except:
         raise Exception("Ha surgido un error en la generacion de clientes")
 
-def DataGen_Ventas(num_ventas, clientes):
+def DataGen_Ventas(num_ventas, clientes): #Genera ventas aleatorias segun los parametros ingresados
     #region Generacion de datos de ventas
     categorias_productos = _productList()
     lista_clientes = list(clientes['ID_Cliente'])
@@ -41,10 +42,11 @@ def DataGen_Ventas(num_ventas, clientes):
     try:
         df_ventas= pd.DataFrame(columns=["ID_Venta","ID_Cliente","Categoría", "Producto", "Precio", "Cantidad"])
         for _ in range(num_ventas):
-            venta = _saleGen(categorias_productos)
-            df_ventas['ID_Venta'] = range(1, len(df_ventas) + 1)
+            venta = _saleGen(categorias_productos, num_ventas)
             df_ventas['ID_Cliente'] = df_ventas.apply(lambda row: random.choice(lista_clientes), axis=1)
             df_ventas = df_ventas._append(venta, ignore_index=True)
+            
+        df_ventas['ID_Venta'] = range(1, len(df_ventas) + 1)
         return df_ventas
     except:
         raise Exception("Ha surgido un error en la generacion de ventas")
@@ -57,7 +59,7 @@ def FileWrite(nombre,datos): #Escribe los datos en un archivo CSV
 
         # Genera un nuevo archivo CSV con datos
         datos.to_csv('data/'+nombre, index=False)
-        print("Archivo CSV generado con exito")
+        print("Archivo "+nombre+" generado con exito")
     except:
         raise("Ha surgido un error escribiendo el archivo")
 
@@ -83,6 +85,8 @@ def _clientGen(nombres):
     nombre = random.choice(list(nombres.keys()))
     apellidos =["Robertson","Tran","Patel","Lee","Floyd","Brown","White","Hall","Martin","Davis","Lambert","Scott"]
     genero_sin_asig = ["Femenino","Masculino","Otro"]
+    
+    #Distribucion Bernoulli
     if random.random() < 0.05:
         nombre = 'NULL'
         genero = random.choice(genero_sin_asig)
@@ -94,7 +98,7 @@ def _clientGen(nombres):
     if random.random() < 0.05:
        edad = 'NULL' 
     else:
-        edad = random.randint(18, 65)
+        edad = random.randint(18, 65) #Distribucion Uniforme
     ubicacion = random.choice(["Norte","Sur","Centro","Este","Oeste"])
     
     return {"Nombre":nombre, "Genero": genero, 'Edad': edad, 'Ubicacion': ubicacion}
@@ -110,24 +114,44 @@ def _clientGen(nombres):
 def _productList():
     categorias_productos = {
             "Hogar": {
-            "Productos": {"Refrigerador":{"Precio": 199990},"Estufa Electrica":{"Precio": 129990}, "Lavadora":{"Precio": 164990}, "Horno Electrico":{"Precio": 189990}, "Lámpara":{"Precio": 4990}}},
+                "Productos": {"Refrigerador", "Estufa Eléctrica", "Lavadora", "Horno Eléctrico"}
+            },
             "Electrónica": {
-            "Productos": {"Televisor":{"Precio": 159990},
-            "Laptop":{"Precio": 699990}, "Computadora":{"Precio": 360608}, "Tablet":{"Precio": 179990}, "Telefono":{"Precio": 296404}, "Licuadora":{"Precio": 19990}, "Batidora":{"Precio": 29990}, "Cafetera":{"Precio": 59990}, "Tostadora":{"Precio": 24990}, "Audífonos":{"Precio": 12990}, "Cámara":{"Precio": 60490}}  
-          }
+                "Productos": {"Televisor", "Laptop", "Computadora", "Tablet", "Teléfono"}
+            },
+            "Electrodomesticos": {
+                "Productos": {"Licuadora", "Batidora", "Cafetera", "Tostadora"}
+            },
+            "Tecnologia": {
+                "Productos": {"Audífonos", "Cámara", "Lámpara", "Bateria"}
+            }
         }
     return categorias_productos
-def _saleGen(categorias_productos):
+
+def _saleGen(categorias_productos,num_ventas):
+    
+    
     categoria = random.choice(list(categorias_productos.keys()))
-    productos = list(categorias_productos[categoria]["Productos"].keys())
-    precios_sin_cat= [1000,1300,1500,1990, 2990,3990,4990]
+    productos = list(categorias_productos[categoria]["Productos"])
+    
+    
+    #Distribución Normal
+    if categoria in ("Electrodomesticos","Tecnologia"):
+       x = 9611 
+       s = 10652 
+    else:
+        x = 227493  
+        s = 180016 
+    dn = np.random.normal(loc=x,scale=s,size=num_ventas)
+    precios = dn[dn>0]
+    
+    #Distribucion Bernoulli
     if random.random() < 0.1:
         producto = 'NULL'
-        precio = random.choice(precios_sin_cat)
     else:
         producto = random.choice(productos)
-        precio = categorias_productos[categoria]["Productos"][producto]["Precio"]
-        
+
+    precio = round(np.random.choice(precios))
     cantidad = random.randint(1, 5)
 
     return {"Categoría": categoria, "Producto": producto, "Precio": precio, "Cantidad": cantidad}
