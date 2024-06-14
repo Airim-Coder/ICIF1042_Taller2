@@ -18,36 +18,43 @@ def LeerArchivo(archivo):  #funcion para leer el archivo csv
     except FileNotFoundError: #control de error si el archivo no existe
         raise(f"Error: Archivo '{archivo}' no encontrado.")
 
-def Limpiar_Datos(data, nombre):
-    filas= data.shape[0]
-    total_nan = data.isnull().sum().sum()
-    p_nan = (total_nan/filas)*100
-    
-    if p_nan <= 5 and nombre == 'clientes':
-        data.dropna(thresh=1, inplace=True)
-        print(f"Las filas de '{nombre}' que contengan valores NULL serán eliminadas ")
-    elif p_nan > 5 and nombre == 'ventas':
-        data["Producto"].fillna(data["Producto"].mode()[0], inplace=True)
-        print(f"Las filas de '{nombre}' que contengan valores NULL serán imputadas con la Moda ")
-    else:
-        print(f"No se realizará limpieza de datos en '{nombre}' al no coincidir con los parametros trabajados")
+def Limpiar_Datos(data, nombre): #funcion que limpia datos ya sea por eliminacion o imputacion de acuerdo al caso
+    while(data.isnull().any().any()): # mientras existan datos nulos ejecutara la imputacion o eliminacion
+        filas= data.shape[0]
+        total_nan = data.isnull().sum().sum()
+        p_nan = (total_nan/filas)*100 # porcentaje de nulos
+        
+        if p_nan <= 5: # si el porcentaje de nulos es menor o igual a 5%
+            data.dropna(inplace=True)# eliminacion de nulos
+            print(f"Las filas de '{nombre}' que contengan valores NULL serán eliminadas ")
+        elif p_nan > 5: # si el porcentaje de nulos es mayor a 5%
+            if nombre == 'ventas': 
+                data["Producto"].fillna(data["Producto"].mode()[0], inplace=True)
+                print(f"Las filas de '{nombre}' columna 'Producto' que contengan valores NULL serán imputadas con la Moda ")
+            elif nombre == 'clientes':
+                data["Edad"].fillna(data["Edad"].mean(), inplace=True)
+                print(f"Las filas de '{nombre}' columna 'Edad' que contengan valores NULL serám imputadas con la Media")
+                data["Nombre"].fillna(data["Nombre"].mode()[0], inplace=True)
+                print(f"Las filas de '{nombre}' columna 'Nombre' que contengan valores NULL serám imputadas con la Moda")
+        else:
+            print(f"No se realizará limpieza de datos en '{nombre}' al no coincidir con los parametros trabajados")
     cleaned_data = data
     return cleaned_data
 
 def Conversion_Datos(data, nombre): #Conversion de los datos contenidos para un mejor analisis posterior
     if nombre == 'ventas':
-        data['ID_Venta']=round(data['ID_Venta'].astype(int))
-        data['ID_Cliente']=round(data['ID_Cliente'].astype(int))
-        data['Categoría']=data['Categoría'].to_string()
-        data['Producto']=data['Producto'].to_string()
-        data['Precio']=round(data['Precio'].astype(int))
-        data['Cantidad']=round(data['Cantidad'].astype(int))
+        data['ID_Venta']=data['ID_Venta'].astype(int).round()
+        data['ID_Cliente']=data['ID_Cliente'].astype(int).round()
+        data['Categoría']=data['Categoría'].astype(str)
+        data['Producto']=data['Producto'].astype(str)
+        data['Precio']=data['Precio'].astype(int).round()
+        data['Cantidad']=data['Cantidad'].astype(int).round()
     elif nombre == 'clientes':
-        data['ID_Cliente']=round(data['ID_Cliente'].astype(int))
-        data['Nombre']=data['Nombre'].to_string()
-        data['Edad']=round(data['Edad'].astype(int))
-        data['Genero']=round(data['Genero'].to_string())
-        data['Ubicacion']=round(data['Ubicacion'].to_string())
+        data['ID_Cliente']=data['ID_Cliente'].astype(int).round()
+        data['Nombre']=data['Nombre'].astype(str)
+        data['Edad']=data['Edad'].astype(int).round()
+        data['Genero']=data['Genero'].astype(str)
+        data['Ubicacion']=data['Ubicacion'].astype(str)
     return data
     
 

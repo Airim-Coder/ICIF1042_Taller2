@@ -137,13 +137,13 @@ def _saleGen(categorias_productos,num_ventas):
     
     #Distribución Normal
     if categoria in ("Electrodomesticos","Tecnologia"):
-       x = 9611 
-       s = 10652 
+       x = 9611 # Media para productos relativamente baratos
+       s = 10652 # Desviacion Estandar para productos relativamente baratos
     else:
-        x = 227493  
-        s = 180016 
+        x = 227493  # Media para productos relativamente caros
+        s = 180016 # Desviacion Estandar para productos relativamente caros
     dn = np.random.normal(loc=x,scale=s,size=num_ventas)
-    precios = dn[dn>0]
+    precios = dn[dn>0] # eliminacion de valores negativos de la campana
     
     #Distribucion Bernoulli
     if random.random() < 0.1:
