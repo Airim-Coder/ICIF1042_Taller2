@@ -6,10 +6,9 @@ Contenido:
 2. Realizar una limpieza de datos inicial en ambos DataFrames, manejando los valores nulos y convirtiendo los tipos de datos según sea necesario.
    Documentar en el informe los pasos realizados para la limpieza de datos.
 '''
-import csv, os
 import pandas as pd
 import numpy as np
-#import matplotlib 
+
 
 def LeerArchivo(archivo):  #funcion para leer el archivo csv
     try:
@@ -56,7 +55,6 @@ def Conversion_Datos(data, nombre): #Conversion de los datos contenidos para un 
         data['Genero']=data['Genero'].astype(str)
         data['Ubicacion']=data['Ubicacion'].astype(str)
     return data
-    
 
 def main(): #Solo para depuracion
     print("do something")
