@@ -59,7 +59,7 @@ def FileWrite(nombre,datos): #Escribe los datos en un archivo CSV
 
         # Genera un nuevo archivo CSV con datos
         datos.to_csv('data/'+nombre, index=False)
-        print("Archivo "+nombre+" generado con exito")
+        print(f"Archivo '{nombre}' generado con exito")
     except:
         raise("Ha surgido un error escribiendo el archivo")
 
@@ -96,7 +96,7 @@ def _clientGen(nombres):
         nombre = nombre + ' ' +random.choice(apellidos)
     
     if random.random() < 0.05:
-       edad = 'NULL' 
+       edad = 'NULL'
     else:
         edad = random.randint(18, 65) #Distribucion Uniforme
     ubicacion = random.choice(["Norte","Sur","Centro","Este","Oeste"])
@@ -151,7 +151,7 @@ def _saleGen(categorias_productos,num_ventas):
     else:
         producto = random.choice(productos)
 
-    precio = round(np.random.choice(precios))
+    precio = np.random.choice(precios)
     cantidad = random.randint(1, 5)
 
     return {"Categoría": categoria, "Producto": producto, "Precio": precio, "Cantidad": cantidad}
