@@ -33,10 +33,3 @@ def Excel(df_completo,promedio_edad_categoria,top_mas_vendidos,top_menos_vendido
         promedio_edad_categoria.to_excel(writer, sheet_name="Promedio_Edad_Categoria", index=False)
         top_mas_vendidos.to_excel(writer, sheet_name="Top_10_Mas_Vendidos", index=False) #MC 2024.06.14 -> cambie a una variable más descripctiva
         top_menos_vendidos.to_excel(writer, sheet_name="Top_10_Menos_Vendidos", index=False) #MC 2024.06.14 -> cambie a una variable más descripctiva
-
-def main(): #Solo para depuración
-    #Simulador_Ventas() #MC 2024.06.14 -> no existe este metodo en la clase
-    print("Haz algo de magia")
-
-if __name__ == "__main__":
-    main()
